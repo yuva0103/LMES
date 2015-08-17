@@ -1,211 +1,152 @@
 <!doctype html>
+<html>
 <head>
-  
-<meta charset="utf-8">
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="http://underscorejs.org/underscore-min.js"></script>
+<script src="http://www.parsecdn.com/js/parse-1.0.4.min.js"></script>
+<script src="js/ParseTable.js"></script>
+<script src="js/ParseFunctions.js"></script>
 
-  
-<title>My Parse App</title>
-  
-<meta name="description" content="My Parse App">
-  
-<meta name="viewport" content="width=device-width">
-  
+<link href="css/parse-table.css" rel="stylesheet" type="text/css" />
 
-  
-<link rel="stylesheet" href="css/styles.css">
-  
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
+
+<script type="text/javascript">
+	Parse.initialize("x6zuWvAxpkxKw3hHsFQL43Z4311Mxqt2jSdXjIFs",
+			"ma4pU7RJaQSHpFnrmLRuK9vDvgNcWCXSoD4kktWh");
+
+	$(document).ready(function() {
+
+		var applicationId = "x6zuWvAxpkxKw3hHsFQL43Z4311Mxqt2jSdXjIFs"
+		var javaScriptKey = "ma4pU7RJaQSHpFnrmLRuK9vDvgNcWCXSoD4kktWh"
+		var tableName = "StoreVideoLink"
+
+		Parse.initialize(applicationId, javaScriptKey);
+
+		pt = new ParseTable({
+			el : $("#table"),
+			parseObjName : tableName,
+			deletable : true,
+			editable : false,
+			cols : [ 'Title', 'Link', 'Category' ],
+		})
+	})
+</script>
+
 
 </head>
-
 <body>
-  
-  
-<div id="main">
-    <h1><p>LMES - ADMIN PANEL </p></h1>
-<table>
-<tr>
-<td><input type="text" placeholder="Title" id="title" name="title"></td>
+	<div id="main">
+		<h1>
+			<p>LMES - ADMIN PANEL</p>
+		</h1>
+		<table class="new">
+			<tr>
+				<td><input type="text" height="40px" placeholder="Title"
+					id="title" name="title"></td>
 
-<td><input type="text" placeholder="Link" id="link" name="link"></td>
+				<td><input type="text" placeholder="Link" id="link" name="link"></td>
 
-<td><select name="cate" id="cat">
-  <option value="maths">Maths</option>
-  <option value="science">Science</option>
-  <option value="physics">Physics</option>
-  <option value="chemistry">Chemistry</option>
-</select></td>
-<td>
+				<td><select name="cate" id="cat">
+						<option value="maths">Maths</option>
+						<option value="science">Science</option>
+						<option value="physics">Physics</option>
+						<option value="chemistry">Chemistry</option>
+				</select></td>
+				<td><input type="button" onclick="validateForm()"
+					value="Submit">
+				</button></td>
+			</tr>
+		</table>
+		<div id="error" class="error"></div>
 
+		<div>
+			<h3>
+				<p>
+					<b>Current Videos</b>
+				</p>
+			</h3>
+		</div>
+		<hr>
+		<div id="table"></div>
 
-<input type="button" onclick="validateForm()" value="Submit"></button></td>
-</tr>
-</table>
-<div id="error" class="error">
+		<!-- 
+	container template that holds the table
+	-->
+		<script type="text/template" class="pt_table_container">
+		<div class=pt_container>
+			<div class=pt_controls id=pt_controls<%- rc.id %>>
+				<img src='images/spinny.gif' id=pt_controls_loading<%- rc.id %>>
+				<button id=pt_controls_prev<%- rc.id %>>prev</button>
+				<button id=pt_controls_next<%- rc.id %>>next</button>
+				<select id=pt_controls_size<%- rc.id %>>
+					<option>10</option>
+					<option>20</option>
+					<option>50</option>
+					<option>100</option>
+				</select>
+				page : <span id=pt_controls_page<%- rc.id %>><%- rc.page %></span>
+			</div>
+			<table id=pt_table<%- rc.id %>></table>
+		</div>
+	</script>
 
-</div>
-</form>
+		<!-- 
+	template that holds the column (headers)
+	-->
+		<script type="text/template" class="pt_table_data_headers">
+		<thead>
+			<tr class=top_row>
+			<% _.each(rc.cols, function(item){ 
+				var pretty = (item.replace( /([A-Z])/g, " $1" ))
+				pretty = pretty.charAt(0).toUpperCase() + pretty.slice(1);
+			%>
+				<th class=pt_header data-colname=<%=item%> data-sortorder=''><%- pretty %></th>
+			<% }) %>
+			<% if (rc.deletable) {%>
+				<td style="width:20px"></td>
+			<% } %>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</script>
 
-<div>
-<h3><p><b>Current Videos</b></p></h3>
-</div>
-<table id="listing" class="new" border="1px" cellpadding="1px">
+		<!-- 
+	template that holds the rows (data)
+	-->
+		<script type="text/template" class="pt_table_data">
 
-</table>
-
-
-</div>
-
- 
-<div>
-
-</div> 
-
+		<% var i=0; _.each(rc.rows, function(row){ 
+			var color = (i++)%2 ? "odd" : "even";
+		%>
+			<tr id=<%=row.id%> class=<%-color%>>
+			<% _.each(row.cells, function(item){ 
+			%>				
+				<td>
+				<div data-rawdata='<%- item.rawdata %>' data-colname=<%- item.col %> class="pt_cell <% if (rc.editable) {%> js-editable<%}%>">
+					<%= item.display %>
+				</div>
+				</td>
+			<% }) %>
+			<% if (rc.deletable) {%>
+				<td class=js-deletable><img src=images/del.png></td>
+			<% } %>
+			</tr>
+		<% }) %>
+	</script>
+		<!-- 
+	template for edit
+	-->
+		<script type="text/template" class="pt_table_cell_edit">
+		<div class="pt_edit">
+			<textarea><%= rc.value %></textarea>
+			<br>
+			<button class=js-save>save</button>
+			<button class=js-cancel>cancel</button>
+		</div>
+	</script>
 </body>
 
 </html>
 
-
-<script type="text/javascript">
-
-Parse.initialize("x6zuWvAxpkxKw3hHsFQL43Z4311Mxqt2jSdXjIFs", "ma4pU7RJaQSHpFnrmLRuK9vDvgNcWCXSoD4kktWh");
-
-function validateForm() {
-
-   	var title = document.getElementById('title').value;   
-	var lin = document.getElementById('link').value;
-	var link=lin.trim();
-var regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
-    if (title == null || title == "") {
-        //alert("Title must be filled out");
-        document.getElementById("error").innerHTML = "Title must be filled out";
-return false;
-    }
-	else if(link == null || link == ""){
-  //alert("Link must be filled out");
-        document.getElementById("error").innerHTML = "Link must be filled out";
-		
-return false;
-    }
-	else if(!regex.test(link)){
-        document.getElementById("error").innerHTML = "Link must be a Valid URL";
-	return false;
-  }
-  else
-  {
-  myExits(link);
-		//return false;
-  }
-
-}
-function myExits(url)
-{
-var GameScore = Parse.Object.extend("jj");
-var query = new Parse.Query(GameScore);
-
-query.equalTo("link", url);
-query.find({
-  success: function(results) {
-  if (results.length > 0) {
-  document.getElementById("error").innerHTML = "Link URL Already Exits";
-
-  alert("Link URL Alredy Exists");
-	return false;
-  }else
-  {
-  myFunction();
-  }
-    }
-	});
-//alert("function return"+check);
-
-}
-
-function myFunction() {
-var title = document.getElementById('title').value;   
-var lin = document.getElementById('link').value;
-var link=lin.trim();
-var cate = document.getElementById('cat').value;
-var GameScore = Parse.Object.extend("jj");
-var gameScore = new GameScore();
-
-
-gameScore.set("title", title);
-gameScore.set("category", cate);
-gameScore.set("link", link);
-gameScore.set("createdby", "admin");
-
-gameScore.save(null, {
-  success: function(gameScore) {
-    // Execute any logic that should take place after the object is saved.
-    //alert('New object created with objectId: ' + gameScore.objectId);
-	window.location.reload(true);
-  },
-  error: function(gameScore, error) {
-    // Execute any logic that should take place if the save fails.
-    // error is a Parse.Error with an error code and message.
-    alert('Failed to create new object, with error code: ' + error.message);
-  }
-});
-}
-var GameScore = Parse.Object.extend("jj");
-var query = new Parse.Query(GameScore);
-
-query.equalTo("createdby", "admin");
-query.find({
-  success: function(results) {
-	//alert("Successfully retrieved " + results.length + " scores.");
-    // Do something with the returned Parse.Object values
-var myhtml = "";
-
-myhtml += "<tr class='sty'><td>Title</td><td>Link</td><td>Category</td><td>Action</td></tr>"
-
-    for (var i = 0; i < results.length; i++) {
-
-      var object = results[i];
-	  var id=object.get("objectId");
-
-var title = object.get("title");
-var link = object.get("link");
-var category = object.get("category");
-var id=object.id;
-myhtml += "<tr><td>" + title +"</td>"
-myhtml += "<td>"+link+"</td>"
-myhtml += "<td>"+category+"</td>";
-myhtml += "<td><img src='image/dele.png' height='16' width='16' onclick='myDelete(&apos;"+id+"&apos;)'></td></tr>";
-
-      //alert(object.id + ' - ' + object.get('createdby'));
-    }
-listing.innerHTML += myhtml;
-
-  },
-  error: function(error) {
-    alert("Error: " + error.code + " " + error.message);
-  }
-});
-
-
-
-
-</script>
-<script type="text/javascript">
-function myDelete(id)
-{
-var GameScore = Parse.Object.extend("jj");
-var query = new Parse.Query(GameScore);
-query.get(id, {
-  success: function(gameScore) {
-    // The object was retrieved successfully.
- gameScore.destroy({});
-alert("Delete Sucess");
-window.location.reload(true);
-
-  },
-  error: function(object, error) {
-    
-  }
-});
-}
-</script>
 
