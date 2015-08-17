@@ -13,16 +13,12 @@
 <script type="text/javascript">
 	Parse.initialize("x6zuWvAxpkxKw3hHsFQL43Z4311Mxqt2jSdXjIFs",
 			"ma4pU7RJaQSHpFnrmLRuK9vDvgNcWCXSoD4kktWh");
-
 	$(document).ready(function() {
-
 		var applicationId = "x6zuWvAxpkxKw3hHsFQL43Z4311Mxqt2jSdXjIFs"
 		var javaScriptKey = "ma4pU7RJaQSHpFnrmLRuK9vDvgNcWCXSoD4kktWh"
 		var tableName = "StoreVideoLink"
-
 		Parse.initialize(applicationId, javaScriptKey);
- 
-		pt = new ParseTable({
+ 		pt = new ParseTable({
 			el : $("#table"),
 			parseObjName : tableName,
 			deletable : true,
@@ -115,7 +111,6 @@
 	template that holds the rows (data)
 	-->
 		<script type="text/template" class="pt_table_data">
-
 		<% var i=0; _.each(rc.rows, function(row){ 
 			var color = (i++)%2 ? "odd" : "even";
 		%>
