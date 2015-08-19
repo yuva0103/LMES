@@ -1,147 +1,58 @@
 <!doctype html>
-<html>
 <head>
-<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-<script src="http://underscorejs.org/underscore-min.js"></script>
-<script src="http://www.parsecdn.com/js/parse-1.0.4.min.js"></script>
-<script src="js/ParseTable.js"></script>
-<script src="js/ParseFunctions.js"></script>
-
-<link href="css/parse-table.css" rel="stylesheet" type="text/css" />
-
-
-<script type="text/javascript">
-	Parse.initialize("x6zuWvAxpkxKw3hHsFQL43Z4311Mxqt2jSdXjIFs",
-			"ma4pU7RJaQSHpFnrmLRuK9vDvgNcWCXSoD4kktWh");
-	$(document).ready(function() {
-		var applicationId = "x6zuWvAxpkxKw3hHsFQL43Z4311Mxqt2jSdXjIFs"
-		var javaScriptKey = "ma4pU7RJaQSHpFnrmLRuK9vDvgNcWCXSoD4kktWh"
-		var tableName = "StoreVideoLink"
-		Parse.initialize(applicationId, javaScriptKey);
- 		pt = new ParseTable({
-			el : $("#table"),
-			parseObjName : tableName,
-			deletable : true,
-			editable : false,
-			cols : [ 'Title', 'Link', 'Category' ],
-		})
-	})
-</script>
-
-
+	<meta charset="utf-8">
+	<title>My Parse App</title>
+	<meta name="description" content="My Parse App">
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.8/css/jquery.dataTables.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+	<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css"/> -->
+	<link rel="stylesheet" href="css/parse-table.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
+	<!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script> -->
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="js/ParseFunctions.js"></script>
+	
 </head>
 <body>
-	<div id="main">
-		<h1>
-			<p>LMES - ADMIN PANEL</p>
-		</h1>
-		<table class="new">
-			<tr>
-				<td><input type="text" height="40px" placeholder="Title"
-					id="title" name="title"></td>
+<div id="main">
+    <h1><p>LMES - ADMIN PANEL </p></h1>
+<table>
+	<form>
+		<tr>
+			<td><input type="text" placeholder="Title" id="title" name="title"></td>
+			<td><input type="text" placeholder="Link" id="link" name="link"></td>
+			<td><select name="cate" id="cat">
+			  <option value="Maths">Maths</option>
+			  <option value="Science">Science</option>
+			  <option value="Physics">Physics</option>
+			  <option value="Chemistry">Chemistry</option>
+			</select></td>
+			<td>
+				<input type="button" onclick="validateForm()" value="Submit"/>
+			</td>
+		</tr>
+	</form>
+</table>
 
-				<td><input type="text" placeholder="Link" id="link" name="link"></td>
+<div id="error" class="error">
+</div>
 
-				<td><select name="cate" id="cat">
-						<option value="maths">Maths</option>
-						<option value="science">Science</option>
-						<option value="physics">Physics</option>
-						<option value="chemistry">Chemistry</option>
-				</select></td>
-				<td><input type="button" onclick="validateForm()"
-					value="Submit">
-				</button></td>
-			</tr>
-		</table>
-		<div id="error" class="error"></div>
+<div>
+	<h3><p><b>Current Videos</b></p></h3>
+</div>
 
-		<div>
-			<h3>
-				<p>
-					<b>Current Videos</b>
-				</p>
-			</h3>
-		</div>
-		<hr>
-		<div id="table"></div>
-
-		<!-- 
-	container template that holds the table
-	-->
-		<script type="text/template" class="pt_table_container">
-		<div class=pt_container>
-			<div class=pt_controls id=pt_controls<%- rc.id %>>
-				<img src='images/spinny.gif' id=pt_controls_loading<%- rc.id %>>
-				<button id=pt_controls_prev<%- rc.id %>>prev</button>
-				<button id=pt_controls_next<%- rc.id %>>next</button>
-				<select id=pt_controls_size<%- rc.id %>>
-					<option>10</option>
-					<option>20</option>
-					<option>50</option>
-					<option>100</option>
-				</select>
-				page : <span id=pt_controls_page<%- rc.id %>><%- rc.page %></span>
-			</div>
-			<table id=pt_table<%- rc.id %>></table>
-		</div>
-	</script>
-
-		<!-- 
-	template that holds the column (headers)
-	-->
-		<script type="text/template" class="pt_table_data_headers">
-		<thead>
-			<tr class=top_row>
-			<% _.each(rc.cols, function(item){ 
-				var pretty = (item.replace( /([A-Z])/g, " $1" ))
-				pretty = pretty.charAt(0).toUpperCase() + pretty.slice(1);
-			%>
-				<th class=pt_header data-colname=<%=item%> data-sortorder=''><%- pretty %></th>
-			<% }) %>
-			<% if (rc.deletable) {%>
-				<td style="width:20px"></td>
-			<% } %>
-			</tr>
-		</thead>
-		<tbody>
-		</tbody>
-	</script>
-
-		<!-- 
-	template that holds the rows (data)
-	-->
-		<script type="text/template" class="pt_table_data">
-		<% var i=0; _.each(rc.rows, function(row){ 
-			var color = (i++)%2 ? "odd" : "even";
-		%>
-			<tr id=<%=row.id%> class=<%-color%>>
-			<% _.each(row.cells, function(item){ 
-			%>				
-				<td>
-				<div data-rawdata='<%- item.rawdata %>' data-colname=<%- item.col %> class="pt_cell <% if (rc.editable) {%> js-editable<%}%>">
-					<%= item.display %>
-				</div>
-				</td>
-			<% }) %>
-			<% if (rc.deletable) {%>
-				<td class=js-deletable><img src=images/del.png></td>
-			<% } %>
-			</tr>
-		<% }) %>
-	</script>
-		<!-- 
-	template for edit
-	-->
-		<script type="text/template" class="pt_table_cell_edit">
-		<div class="pt_edit">
-			<textarea><%= rc.value %></textarea>
-			<br>
-			<button class=js-save>save</button>
-			<button class=js-cancel>cancel</button>
-		</div>
-	</script>
+<table id="listing" class="stripe" cellspacing="0" width="100%">
+<thead>
+	<tr>
+		<th>Title</th>
+		<th>Link</th>
+		<th>Category</th>
+		<th>Action</th>
+	</tr>
+</thead>
+</table>
 </body>
-
 </html>
-
 

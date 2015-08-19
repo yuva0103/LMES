@@ -1,115 +1,33 @@
-	
-	
-	*{
-		font-size:12px;
-		font-family: arial;
-		margin: 0;
-		padding:0;		
-		text-shadow:1px 1px 1px #fff;
-		color:#333;
-	}
-	p{
-		padding:20px;
-	}
-	ul{
-		padding:0px 40px 0 80px;
-	}
-	p, ul li{
-		font-size:17px;
-	}
-	h1{
-		font-size:23px;
-		padding:20px;
-	}
-	body{
-		margin:20px 150px 0 150px;
-	}
-	.pt_container{
-		position: relative;
-		min-width:100px;
-		padding:14px;
-		border:1px solid #ddd;
-	}
-	.pt_container .pt_controls{
-		position: relative;
-		float: right;
-		clear: both;
-		margin:4px;
-	}
-	.pt_container .odd {
-		background: #5FC3E4;
-	}
-	.pt_container .even{
-		background: #eeeeee;
-	}
-	.pt_container .pt_header{
-		background-image:url('../images/sort_both.png');
-		background-repeat:no-repeat;
-		background-position:center right; 
-	}
-	.pt_container .pt_ascending {
-		background-image:url('../images/sort_asc.png');
-		background-repeat:no-repeat;
-		background-position:center right; 
-	}
-	.pt_container .pt_descending {
-		background-image:url('../images/sort_desc.png');
-		background-repeat:no-repeat;
-		background-position:center right; 
-	}
+* {
+	font-size: 12px;
+	font-family: arial;
+	margin: 0;
+	padding: 0;
+	text-shadow: 1px 1px 1px #fff;
+	color: #333;
+}
 
-	.pt_container .top_row {
-	background: #00C9FF;
+p {
+	padding: 20px;
+}
 
-  }
-	
-	.pt_container button{
-		padding:4px;
-		font-size: 10px;
-		font-weight:bold;
-	}
-	.pt_container table{
-		border-spacing: 0;
-		border:2px solid #aaa;
-	}
-	.pt_container th, td{
-		border:0;
-		border-right:2px solid #aaa;
-		margin: 0;
-		padding:8px;
-		text-align: left;
-		position: relative;			
-	}
-	.pt_cell{
-		position: relative;
-		display: block;
-	}
-	.pt_container table{
-		width:100%;
-	}
-	.pt_edit{
-		position:absolute;
-		z-index:2;
-		display:block;
-		top:-5px;
-		left:-5px;
-		min-width: 200px;
-		border:3px solid #bbb;
-		background: #ddd;
-		padding:4px;
-		box-shadow: 5px 5px 5px #444;
-	}
-	.pt_edit textarea{
-		width:100%;
-	}
-	.new td{
-	width:200px;
-	height:50px;
-	border-right:none;
-	padding:2px;
-	}
+ul {
+	padding: 0px 40px 0 80px;
+}
 
-.error
-{
-color:red;
+p, ul li {
+	font-size: 17px;
+}
+
+h1 {
+	font-size: 23px;
+	padding: 20px;
+}
+
+body {
+	margin: 20px 150px 0 150px;
+}
+
+.error {
+	color: red;
 }
