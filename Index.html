@@ -1,58 +1,51 @@
 <!doctype html>
-<head>
-	<meta charset="utf-8">
-	<title>My Parse App</title>
-	<meta name="description" content="My Parse App">
-	<meta name="viewport" content="width=device-width">
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.8/css/jquery.dataTables.min.css"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-	<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css"/> -->
-	<link rel="stylesheet" href="css/parse-table.css">
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
-	<!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script> -->
-	<script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="js/ParseFunctions.js"></script>
+	<head>
+		<meta charset="utf-8">
+		<title>My Parse App</title>
+		<meta name="description" content="My Parse App">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.8/css/jquery.dataTables.min.css" />
+		<link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+		<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css"/> -->
+		<link rel="stylesheet" href="css/parse-table.css">
+		<script type="text/javascript"	src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript"	src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
+		<!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script> -->
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="js/ParseFunctions.js"></script>
+	</head>
+
+	<body>
+		<div id="main">
+			<h1>LMES - ADMIN PANEL</h1>
+			<form class="form-inline" role="form">
+				<div class="form-group">
+					<input type="text" placeholder="Title" id="title" name="title" required="required" class="form-control input-sm" />
+					<input type="text" placeholder="Link" id="link" name="link" required="required" class="form-control input-sm" /> 
+						<select	name="cate" id="cat" class="form-control input-sm">
+							<option value="Maths">Maths</option>
+							<option value="Science">Science</option>
+							<option value="Physics">Physics</option>
+							<option value="Chemistry">Chemistry</option>
+						</select>
+					<input type="button" class="btn btn-default" onclick="validateForm()" value="Submit" />
+				</div>
+			</form>
+			<div id="error" class="text-danger"></div>
+			<br>
+			<h3>Current Videos</h3>
+			<br>
+			<table id="listing" class="stripe" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Link</th>
+						<th>Category</th>
+						<th class="no-sort">Action</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</body>
+<html>
 	
-</head>
-<body>
-<div id="main">
-    <h1><p>LMES - ADMIN PANEL </p></h1>
-<table>
-	<form>
-		<tr>
-			<td><input type="text" placeholder="Title" id="title" name="title"></td>
-			<td><input type="text" placeholder="Link" id="link" name="link"></td>
-			<td><select name="cate" id="cat">
-			  <option value="Maths">Maths</option>
-			  <option value="Science">Science</option>
-			  <option value="Physics">Physics</option>
-			  <option value="Chemistry">Chemistry</option>
-			</select></td>
-			<td>
-				<input type="button" onclick="validateForm()" value="Submit"/>
-			</td>
-		</tr>
-	</form>
-</table>
-
-<div id="error" class="error">
-</div>
-
-<div>
-	<h3><p><b>Current Videos</b></p></h3>
-</div>
-
-<table id="listing" class="stripe" cellspacing="0" width="100%">
-<thead>
-	<tr>
-		<th>Title</th>
-		<th>Link</th>
-		<th>Category</th>
-		<th>Action</th>
-	</tr>
-</thead>
-</table>
-</body>
-</html>
-
